@@ -36,6 +36,7 @@ export async function InsertPayment(req,res){
 
 export async function PaymentSummary(req, res) {
     try {
+        //res.set("Cache-Control", "no-store");  // <-- add this
         const { userId } = req.params;
         //console.log(userId)
         const summary = await PaymentModel.aggregate([
@@ -58,3 +59,40 @@ export async function PaymentSummary(req, res) {
     }
 }
 
+export async function GetDairy(req,res){
+    try{
+        const { userId } = req.params;
+        const dairyData = await PaymentModel.find({owner: userId , sub_category: "dairy" }); 
+         return res.status(200).json(dairyData);
+    }
+    catch(err){
+         res.status(500).json({ message: err.message });
+    }
+
+}
+export async function GetVegetable(req,res){
+    try{
+        const { userId } = req.params;
+        const VegetableData = await PaymentModel.find({owner: userId , sub_category: "vegetable" }); 
+         return res.status(200).json(VegetableData);
+    }
+    catch(err){
+         res.status(500).json({ message: err.message });
+    }
+
+}
+export async function GetSubCategory(req, res) {
+    try {
+        const { userId, sub_category } = req.params;
+
+        const data = await PaymentModel.find({
+            owner: userId,
+            sub_category: sub_category.toLowerCase()   // normalize
+        });
+
+        return res.status(200).json(data);
+
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+}
