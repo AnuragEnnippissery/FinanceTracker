@@ -17,14 +17,15 @@ export async function GetPaymentsByUser(req, res) {
 
 export async function InsertPayment(req,res){
     try{
-        const{category,sub_category,owner,mode,description,amount}=req.body;
+        const{category,sub_category,owner,mode,description,amount,date}=req.body;
         const newPayment =new PaymentModel({
             category,
             sub_category,
             owner,
             mode,
             description,
-            amount
+            amount,
+            date: date ? new Date(date) : new Date() 
         })
         await newPayment.save() //inserted into db
         res.status(200).json({message:"payment details added",newPayment})
@@ -88,7 +89,7 @@ export async function GetSubCategory(req, res) {
         const data = await PaymentModel.find({
             owner: userId,
             sub_category: sub_category.toLowerCase()   // normalize
-        });
+        }).sort({ date: -1 });;
 
         return res.status(200).json(data);
 
