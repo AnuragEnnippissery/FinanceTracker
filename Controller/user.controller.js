@@ -11,7 +11,8 @@ export async function Register(req,res){
         const hashedPassword = await bcrypt.hash(req.body.password, salt);
         const newUser = new UserModel({
             username:req.body.username,
-            password:hashedPassword
+            password:hashedPassword,
+            email:req.body.email,
         })
         await newUser.save()
         res.status(204).json({"message":"new user created"})
