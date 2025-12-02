@@ -7,6 +7,7 @@ import dotenv from "dotenv";
 import ReminderRoutes from "./Route/reminder.route.js";
 import "./Corn/reminderCron.js";
 import "./Corn/weeklyCron.js"
+import PredictionRoutes from "./Route/prediction.routes.js";
 
 dotenv.config(); // Load .env variables
 
@@ -20,6 +21,7 @@ app.use(cors());
 UserRoutes(app);
 PaymentRoutes(app);
 ReminderRoutes(app);
+PredictionRoutes(app);
 
 // MongoDB connection
 mongoose
@@ -33,5 +35,5 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`App running on port ${PORT}`);
 });
-console.log("EMAIL:", process.env.SENDER_EMAIL);
-console.log("PASS:", process.env.SENDER_PASSWORD);
+//console.log("EMAIL:", process.env.SENDER_EMAIL);
+//console.log("PASS:", process.env.SENDER_PASSWORD);
