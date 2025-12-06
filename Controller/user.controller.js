@@ -28,7 +28,7 @@ export async function Login(req,res){
         let {username,password}=req.body;
         let user=await UserModel.findOne({username})
         if(!user){
-            res.json({"message":"not registered"})
+            return res.status(404).json({"message":"not registered"})
         }
         // Compare plain password with hashed password
             const isMatch = await bcrypt.compare(password, user.password);
